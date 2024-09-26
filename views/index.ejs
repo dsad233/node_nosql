@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인페이지</title>
+    <style>
+        #kakaologin {
+            width: 150;
+            height: 100;
+        }
+        #headerbox1{
+            display: flex;
+            justify-content: space-around;
+        }
+        #bodybox1{
+            width: 300;
+            height: 150;
+            margin: 20px 0px 0px 0px;
+            box-shadow: 0px 2px 0px 0px gray;
+            border: 0.1 solid black;
+            border-radius: 5px;
+            background-color: azure;
+        }
+        #textbox1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="headerbox1">
+            <a href="/auth/kakao"><img src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png" alt="kakao" id="kakaologin"></a>
+        </div>
+    </header>
+    <div id="bodybox1">
+        <div id="textbox1">
+            <br>
+            <a href="/users/info">회원정보</a>
+            <br>
+            <a href="/loginpage">일반 로그인</a>
+            <br>
+            <a href="/auth/kakao/test">카카오 테스트</a>
+        </div>
+    </div>
+    
+</body>
+</html>
