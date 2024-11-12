@@ -15,8 +15,18 @@ export class PostsService {
     };
 
     // 게시물 생성
-    createPost = async (id, title, content, userId, nickname) => {
-        const createPost = await this.postsRepository.createPost(id, title, content, userId, nickname);
+    createPost = async (title, context, user) => {
+        let countId = 0;
+        const allPost = await this.postsRepository.findPost();
+        const maxId = allPost.map((data) => data.id);
+        
+        if(allPost && allPost.length === 0){
+            countId = 1;
+        } else {
+            countId = Math.max(maxId[maxId.length - 1]) + 1;
+        }
+
+        const createPost = await this.postsRepository.createPost(countId, title, context, user);
 
         return createPost;
     };
@@ -25,7 +35,7 @@ export class PostsService {
     findPostAll = async () => {
         const postFind = await this.postsRepository.findPost();
 
-        if(postFind.length === 0){
+        if(postFind && postFind.length === 0){
             throw new Error("게시물이 존재하지 않습니다.");
         };
 
@@ -36,7 +46,7 @@ export class PostsService {
     findPostOne = async (id) => {
         const postOne = await this.postsRepository.findById(id);
 
-        if(!postOne){
+        if(postOne === null){
             throw new Error("게시물이 존재하지 않습니다.");
         };
         
@@ -55,15 +65,14 @@ export class PostsService {
     };
 
     // 게시글 수정
-    updatePost = async (id, title, content) => {
+    updatePost = async (id, title, context) => {
         const findId = await this.postsRepository.findById(id);
 
         if(!findId){
             throw new Error("게시물이 존재하지 않습니다.");
         };
         
-        const updateDate = new Date();
-        const postUpdate = await this.postsRepository.editPost(id, title, content, updateDate);
+        const postUpdate = await this.postsRepository.editPost(id, title, context);
 
         return postUpdate;
     };

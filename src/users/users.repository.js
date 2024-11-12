@@ -11,7 +11,7 @@ export class UsersRepository {
 
     // 삭제 요청된 회원 전체 조회 [어드민만]
     findDeletedUser = async () => {
-        const DeletedAll = await this.users.find({ deletedAt : { $ne : null } }, {
+        const DeletedAll = await this.users.find({ deletedAt : null }, {
             _id : false,
             id : true, 
             email : true,

@@ -33,10 +33,6 @@ export class UsersController {
         try {
             const { id } = req.params;
             const userOne = await this.usersService.userOne(id);
-
-            if(userOne === null){
-                return res.status(404).json({ message : "회원이 존재하지 않습니다." });
-            }
     
             return res.status(200).json({ message : "회원 상세 조회", data : userOne });
         } catch (error){
@@ -48,7 +44,7 @@ export class UsersController {
     // 유저 마이페이지 조회
     userInfo = async (req, res) => {
         try {
-            const { id } = req.users;
+            const { id } = req.user;
 
             const infoGet = await this.usersService.findMyPage(id);
 
@@ -62,15 +58,19 @@ export class UsersController {
     // 회원 수정
     userEdit = async (req, res, next) => {
         try {
-            const { id } = req.users;
+            const { id } = req.user;
             const { password, nickname } = req.body;
         
             if(!password){
                 return res.status(404).json({ message : "패스워드란이 누락되었습니다." });
             }
 
-            if(nickname && nickname === ""){
-                return res.status(404).json({ message : "닉네임란을 1자 이상 작성하여 주십시오." });
+            if(password && password.length < 8){
+                return res.status(404).json({ message : "패스워드란을 8자 이상으로 작성하여 주십시오." });
+            }
+
+            if(nickname && nickname.length < 2){
+                return res.status(404).json({ message : "닉네임란을 2자 이상으로 작성하여 주십시오." });
             }
 
             const hashPassword = await this.authService.hashPassword(password);
@@ -88,7 +88,7 @@ export class UsersController {
     // 회원 탈퇴
     userDelete = async (req, res, next) => {
         try {
-            const { id } = req.users;
+            const { id } = req.user;
 
             await this.usersService.userDelete(id);
 
@@ -103,7 +103,7 @@ export class UsersController {
     // 임시 회원 탈퇴
     tbUserDelete = async (req, res, next) => {
         try {
-            const { id } = req.users;
+            const { id } = req.user;
 
             await this.usersService.tbUserDelete(id);
             

@@ -1,14 +1,17 @@
 import express from "express";
 import users from "../schemas/users.schemas.js";
+import { UsersRepository } from "../users/users.repository.js";
 import { AuthRepository } from "../auth/auth.repository.js";
 import { AuthService } from "../auth/auth.service.js";
 import { AuthController } from "../auth/auth.controller.js";
 import checkToken from "../utils/jwt/jwtCheck.js";
 import passport from "passport";
+
 const router = express.Router();
 
+const usersRepository = new UsersRepository(users);
 const authRepository = new AuthRepository(users);
-const authService = new AuthService(authRepository);
+const authService = new AuthService(authRepository, usersRepository);
 const authController = new AuthController(authService);
 
 // 회원가입

@@ -1,14 +1,19 @@
 import mongoose from "mongoose";
 
-const posts = new mongoose.Schema({
+const reply = new mongoose.Schema({
     id : {
         type : Number,
         unique : false
     },
-    title : {
-        type : String,
-        require : true,
-        unique : false
+    postId : {
+        type : Number,
+        ref : 'posts',
+        require : true
+    },
+    postcommentId : {
+        type : Number,
+        ref : 'postcomments',
+        require : true
     },
     context : {
         type : String,
@@ -33,14 +38,14 @@ const posts = new mongoose.Schema({
             require : true
         },
         nickname : {
-            type : String,
+            type : Number,
             ref : 'users',
-            require : true  
-        },
+            require : true
+        }
     }
 },
 {
     versionKey : false
-});
+})
 
-export default mongoose.model('posts', posts);
+export default mongoose.model("reply", reply);

@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const users = new mongoose.Schema({
     id: {
         type: Number,
-        required: false,
-        unique: false
+        unique : false
     },
     email : {
         type : String,

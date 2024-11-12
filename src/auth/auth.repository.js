@@ -16,9 +16,9 @@ export class AuthRepository {
     };
 
     // 회원가입
-    register = async (id, email, hashPassword, nickname) => {
+    register = async (count, email, hashPassword, nickname) => {
         const create = await this.users.create({
-           id, 
+           id : count, 
            email,
            password : hashPassword,
            nickname

@@ -30,7 +30,7 @@ export default async function checkToken (req, res, next){
             return res.status(403).json({ message : "삭제 요청된 회원입니다. 문의 바랍니다." });
         }
 
-        req.users = findUser;
+        req.user = findUser;
 
         next();
     } catch (error){

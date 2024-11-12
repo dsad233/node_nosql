@@ -19,7 +19,7 @@ export default async function kakaoAccess (req, res, app) {
 
                 const tokenSign = jwt.sign({ id : profile._json.id }, ENV_JWT_SECRET_KEY, { expiresIn : '12h' });
                 
-                return done(null, findUser, { token : tokenSign });;
+                return done(null, findUser, { token : tokenSign });
             } else {
                 const newUser = await users.create({
                     id : profile._json.id,

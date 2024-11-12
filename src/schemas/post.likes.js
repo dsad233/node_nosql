@@ -3,28 +3,20 @@ import mongoose from "mongoose";
 const postLikes = new mongoose.Schema({
     id : {
         type : Number,
+        unique : false
+    },
+    postId : {
+        type : Number,
+        ref : 'posts',
         require : true
     },
-    likeCount : {
-        type : Number,
-        default : 0
-    },
-    posts : {
-        postId : {
-            type : Number,
-            ref : 'posts',
-            require : true
-        },
-        content : {
-            type : String,
-            ref : 'posts',
-            require : true
-        }, 
-        createdAt : {
-            type : Date,
-            ref : 'posts',
-            require : true
-        }
+    // likeCount : {
+    //     type : Number,
+    //     default : 0
+    // },
+    createdAt : {
+        type : Date,
+        default : Date.now()  
     },
     users : {
         userId : {

@@ -2,8 +2,9 @@ import bcrypt from "bcrypt";
 import { ENV_PASSWORD_SALT } from "../utils/const_config.js";
 import signToken from "../utils/jwt/jwtSign.js";
 export class AuthService {
-    constructor (authRepository){
+    constructor (authRepository, usersRepository){
         this.authRepository = authRepository;
+        this.usersRepository = usersRepository;
     }
 
     // 패스워드 암호화 과정
@@ -36,7 +37,10 @@ export class AuthService {
     };
 
     // 회원가입
-    register = async (id, email, password, nickname) => {
+    register = async (email, password, nickname) => {
+        const findAll = await this.usersRepository.userAll();
+        const maxId = findAll.map((data) => data.id);
+        let count = 0;
         const findUnique = await this.authRepository.findUnique(email, nickname);
         const hashPassword = await this.hashPassword(password);
 
@@ -52,7 +56,13 @@ export class AuthService {
             throw new Error("삭제 요청된 계정입니다. 문의 바랍니다.");
         }
 
-        const create = await this.authRepository.register(id, email, hashPassword, nickname);
+        if(findAll.length === 0){
+            count = 1;
+        } else {
+            count = Math.max(maxId[maxId.length - 1]) + 1;
+        }
+
+        const create = await this.authRepository.register(count, email, hashPassword, nickname);
 
         return create;
     };

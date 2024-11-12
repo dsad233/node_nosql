@@ -9,7 +9,7 @@ export class PostsRepository {
             _id : false,
             id : true,
             title : true,
-            content : true,
+            context : true,
             createdAt : true,
             updatedAt : true,
             deletedAt : true,
@@ -28,7 +28,7 @@ export class PostsRepository {
             _id : false,
             id : true,
             title : true,
-            content : true,
+            context : true,
             createdAt : true,
             users : {
                 userId : true,
@@ -40,16 +40,18 @@ export class PostsRepository {
     };
 
     // 게시물 생성
-    createPost = async (id, title, content, userId, nickname) => {
-        const createdPost = await this.posts.create({
-            id,
-            title,
-            content,
-            users : {
-                userId,
-                nickname
-            }
-        });
+    createPost = async (countId, title, context, user) => {
+        const createdPost = await this.posts.create(
+            {
+                id: countId,
+                title,
+                context,
+                users : {
+                    userId : user.id,
+                    nickname : user.nickname
+                }
+            },
+        );
 
         return createdPost;
     };
@@ -73,12 +75,12 @@ export class PostsRepository {
     };
 
     // 게시글 수정
-    editPost = async (id, title, content, updateDate) => {
-        const updatedPost = await this.posts.updateOne({ id : +id }, 
+    editPost = async (id, title, context) => {
+        const updatedPost = await this.posts.updateOne({ $and : [{id : +id}, {deletedAt : null}] }, 
             {
                 title,
-                content,
-                updatedAt : updateDate
+                context,
+                updatedAt : new Date()
             }
         )
 
@@ -94,7 +96,7 @@ export class PostsRepository {
 
     // 임시 게시글 삭제
     tbDeletePost = async (id) => {
-        const tbDeleted = await this.posts.updateOne({ id : +id }, {
+        const tbDeleted = await this.posts.updateOne({ $and : [{id : +id}, {deletedAt : null}] }, {
             deletedAt : new Date()
         });
 
