@@ -101,6 +101,8 @@ router.patch('/:postId/post-comments/softdelete/:id', checkToken, postCommentCon
 // ---- 게시글 대댓글 ---- //
 // 해당 게시글의 대댓글 전체 조회
 router.get('/:postId/post-comments/:commentId/replys', checkToken, postCommentReplyController.find);
+// 해당 게시글의 대댓글 카운트
+router.get('/:postId/post-comments/:commentId/replys/count', checkToken, postCommentReplyController.findCount);
 // 해당 게시글의 대댓글 상세 조회
 router.get('/:postId/post-comments/:commentId/replys/:id', checkToken, postCommentReplyController.findOne);
 // 삭제된 대댓글 리스트 전체 조회 [어드민만]

@@ -18,6 +18,21 @@ export class PostCommentReplyController {
         }
     };
 
+    // 해당 게시글의 대댓글 카운트
+    findCount = async (req, res) => {
+        try {
+            const { postId } = req.params;
+            const { commentId } = req.params;
+
+            const data = await this.postCommentReplyService.findCount(postId, commentId);
+
+            return res.status(200).json({ message : "해당 게시글의 대댓글 카운트 조회를 완료하였습니다.", count : data });
+        } catch (error){
+            console.log(error);
+            return res.status(500).json({ message : "해당 게시글의 대댓글 카운트 조회에 실패하였습니다." });
+        }
+    };
+
     // 해당 게시글의 대댓글 상세 조회
     findOne = async (req, res) => {
         try {

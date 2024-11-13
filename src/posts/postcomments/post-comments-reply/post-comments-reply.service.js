@@ -5,6 +5,18 @@ export class PostCommentReplyService {
 
     // 해당 게시글의 대댓글 전체 조회 
     find = async (postId, commentId) => {
+        const findPost = await this.postCommentReplyRepository.findPostID(postId);
+
+        if(!findPost){
+            throw new Error("게시글 목록이 존재하지 않습니다.");
+        }
+
+        const findComment = await this.postCommentReplyRepository.findCommentID(postId, commentId);
+
+        if(!findComment){
+            throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
+        }
+
         const getReply = await this.postCommentReplyRepository.find(postId, commentId);
 
         if(getReply && getReply.length === 0){
@@ -13,6 +25,26 @@ export class PostCommentReplyService {
 
         return getReply;
     }
+
+    // 해당 게시글의 대댓글 카운트
+    findCount = async (postId, commentId) => {
+        const findPost = await this.postCommentReplyRepository.findPostID(postId);
+
+        if(!findPost){
+            throw new Error("게시글 목록이 존재하지 않습니다.");
+        }
+
+        const findComment = await this.postCommentReplyRepository.findCommentID(postId, commentId);
+
+        if(!findComment){
+            throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
+        }
+
+        const findReply = await this.postCommentReplyRepository.find(postId, commentId);
+        const length = findReply.length;
+        
+        return length;
+    };
 
     // 해당 게시글의 대댓글 상세 조회
     findOne = async (postId, commentId, id) => {
