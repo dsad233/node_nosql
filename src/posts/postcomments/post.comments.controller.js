@@ -7,7 +7,7 @@ export class PostCommentController {
     create = async (req, res, next) => {
         try {
             const user = req.user;
-            const postId = req.params.postId;
+            const { postId } = req.params;
 
             const { context } = req.body;
 
@@ -97,8 +97,8 @@ export class PostCommentController {
     // 댓글 상세 조회
     findOne = async (req, res) => {
         try {
-            const postId = req.params.postId;
-            const id = req.params.id;
+            const { postId } = req.params;
+            const { id } = req.params;
 
             const findOne = await this.postCommentService.findOne(postId, id);
             return res.status(200).json({ message : "댓글 상세 조회가 완료되었습니다.", data : findOne });
@@ -111,8 +111,8 @@ export class PostCommentController {
     // 댓글 수정
     update = async (req, res, next) => {
         try {
-            const postId = req.params.postId;
-            const id = req.params.id;
+            const { postId } = req.params;
+            const { id } = req.params;
             const { context } = req.body;
 
             if(!context){
@@ -134,8 +134,8 @@ export class PostCommentController {
     // 댓글 삭제
     delete = async (req, res, next) => {
         try {
-            const postId = req.params.postId;
-            const id = req.params.id;
+            const { postId } = req.params;
+            const { id } = req.params;
 
             await this.postCommentService.deleteComment(postId, id);
 
@@ -149,8 +149,8 @@ export class PostCommentController {
     // 임시 댓글 삭제
     tbdelete = async (req, res, next) => {
         try {
-            const postId = req.params.postId;
-            const id = req.params.id;
+            const { postId } = req.params;
+            const { id } = req.params;
 
             await this.postCommentService.tbdeleteComment(postId, id);
 

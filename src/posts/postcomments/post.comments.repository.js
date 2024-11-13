@@ -139,8 +139,8 @@ export class PostCommentRepository {
     };
 
     // 댓글 수정
-    editComment = async (id, context) => {
-        const editComment = await this.postComments.updateOne({ $and : [{id : +id}, {deletedAt : null}] }, {
+    editComment = async (postId, id, context) => {
+        const editComment = await this.postComments.updateOne({ $and : [{postId : +postId}, {id : +id}, {deletedAt : null}] }, {
             context
         });
 
@@ -148,15 +148,15 @@ export class PostCommentRepository {
     };
 
     // 댓글 삭제
-    deleteComment = async (id) => {
-        const deleteComment = await this.postComments.deleteOne({ id : +id });
+    deleteComment = async (postId, id) => {
+        const deleteComment = await this.postComments.deleteOne({ $and : [{postId : +postId}, {id : +id}] });
 
         return deleteComment;
     }
 
     // 임시 댓글 삭제
-    tbCommentdelete = async (id) => {
-        const tobedeleted = await this.postComments.updateOne({ $and : [{id : +id}, {deletedAt : null}] }, {
+    tbCommentdelete = async (postId, id) => {
+        const tobedeleted = await this.postComments.updateOne({ $and : [{postId : +postId}, {id : +id}, {deletedAt : null}] }, {
             deletedAt : new Date()
         });
 

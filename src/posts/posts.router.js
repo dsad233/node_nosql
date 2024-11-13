@@ -10,6 +10,11 @@ import { PostCommentRepository } from "./postcomments/post.comments.repository.j
 import { PostCommentService } from "./postcomments/post.comments.service.js";
 import { PostCommentController } from "./postcomments/post.comments.controller.js";
 
+import postreplys from "../schemas/post.comments.reply.js";
+import { PostCommentReplyRepository } from "./postcomments/post-comments-reply/post-comments-reply.repository.js";
+import { PostCommentReplyService } from "./postcomments/post-comments-reply/post-comments-reply.service.js";
+import { PostCommentReplyController } from "./postcomments/post-comments-reply/post-comments-reply.controller.js";
+
 import postLikes from "../schemas/post.likes.js";
 import { PostLikeRepository } from "../posts/postlikes/postlikes.repository.js";
 import { PostLikeService } from "../posts/postlikes/postlikes.service.js";
@@ -25,6 +30,10 @@ const postsController = new PostsController(postsService);
 const postCommentRepository = new PostCommentRepository(posts, postcomments);
 const postCommentService = new PostCommentService(postCommentRepository);
 const postCommentController = new PostCommentController(postCommentService);
+
+const postCommentReplyRepository = new PostCommentReplyRepository(posts, postcomments, postreplys);
+const postCommentReplyService = new PostCommentReplyService(postCommentReplyRepository);
+const postCommentReplyController = new PostCommentReplyController(postCommentReplyService);
 
 const postLikeRepository = new PostLikeRepository(posts, postLikes);
 const postLikeService = new PostLikeService(postLikeRepository);
@@ -86,6 +95,25 @@ router.patch('/:postId/post-comments/:id', checkToken, postCommentController.upd
 router.delete('/:postId/post-comments/:id', checkToken, postCommentController.delete);
 // 임시 댓글 삭제
 router.patch('/:postId/post-comments/softdelete/:id', checkToken, postCommentController.tbdelete);
+
+
+
+// ---- 게시글 대댓글 ---- //
+// 해당 게시글의 대댓글 전체 조회
+router.get('/:postId/post-comments/:commentId/replys', checkToken, postCommentReplyController.find);
+// 해당 게시글의 대댓글 상세 조회
+router.get('/:postId/post-comments/:commentId/replys/:id', checkToken, postCommentReplyController.findOne);
+// 삭제된 대댓글 리스트 전체 조회 [어드민만]
+router.get('/post-comments/replys/deleted', checkToken, postCommentReplyController.findDeleted);
+// 대댓글 생성
+router.post('/:postId/post-comments/:commentId/replys', checkToken, postCommentReplyController.create);
+// 대댓글 업데이트
+router.patch('/:postId/post-comments/:commentId/replys/:id', checkToken, postCommentReplyController.update);
+// 대댓글 삭제
+router.delete('/:postId/post-comments/:commentId/replys/:id', checkToken, postCommentReplyController.delete);
+// 대댓글 임시 삭제 (softdelete)
+router.patch('/:postId/post-comments/:commentId/replys/softdelete/:id', checkToken, postCommentReplyController.softdelete);
+
 
 
 

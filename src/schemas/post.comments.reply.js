@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const reply = new mongoose.Schema({
+const postreplys = new mongoose.Schema({
     id : {
         type : Number,
         unique : false
@@ -38,7 +38,7 @@ const reply = new mongoose.Schema({
             require : true
         },
         nickname : {
-            type : Number,
+            type : String,
             ref : 'users',
             require : true
         }
@@ -48,4 +48,4 @@ const reply = new mongoose.Schema({
     versionKey : false
 })
 
-export default mongoose.model("reply", reply);
+export default mongoose.model("postreplys", postreplys);

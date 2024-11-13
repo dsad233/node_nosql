@@ -141,7 +141,7 @@ export class PostCommentService {
             throw new Error("조회하시는 댓글이 존재하지 않습니다.");
         }
 
-        const update = await this.postCommentRepository.editComment(id, context);
+        const update = await this.postCommentRepository.editComment(postId, id, context);
         
         return update;
     };
@@ -160,7 +160,7 @@ export class PostCommentService {
             throw new Error("조회하시는 댓글이 존재하지 않습니다.");
         }
 
-        const delComment = await this.postCommentRepository.deleteComment(id);
+        const delComment = await this.postCommentRepository.deleteComment(postId, id);
 
         return delComment;
     };
@@ -179,7 +179,7 @@ export class PostCommentService {
             throw new Error("조회하시는 댓글이 존재하지 않습니다.");
         } 
 
-        const tbdelete = await this.postCommentRepository.tbCommentdelete(id);
+        const tbdelete = await this.postCommentRepository.tbCommentdelete(postId, id);
 
         return tbdelete;
     };
