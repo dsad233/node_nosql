@@ -24,10 +24,7 @@ export class PostCommentRepository {
             title : true,
             context : true,
             createdAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         });
 
         return findPost;
@@ -40,10 +37,7 @@ export class PostCommentRepository {
             id : true,
             context : true,
             createdAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         });
 
         return findId;
@@ -55,10 +49,7 @@ export class PostCommentRepository {
             id : count,
             context,
             postId,
-            users : {
-                userId : user.id,
-                nickname : user.nickname
-            }
+            users : true
         });
 
         return addComment;
@@ -78,10 +69,7 @@ export class PostCommentRepository {
     findAllComment = async (postId) => {
         const findComment = await this.postComments.find({ $and : [{ postId : postId } , { deletedAt : null }] }, {
             _id : false,
-            users : {
-                userId : true,
-                nickname : true
-            },
+            users : true,
             id : true,
             postId : true,
             context : true,
@@ -125,10 +113,7 @@ export class PostCommentRepository {
     findOneComment = async (postId, id) => {
         const findId = await this.postComments.findOne({ $and : [{ id : +id }, { postId : postId }, { deletedAt : null }]}, {
             _id : false,
-            users : {
-                userId : true,
-                nickname : true
-            },
+            users : true,
             id : true,
             postId : true,
             context : true,

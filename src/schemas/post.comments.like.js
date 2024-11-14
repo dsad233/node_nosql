@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-const postcommentreplys = new mongoose.Schema({
+
+const postcommentlike = new mongoose.Schema({
     id : {
-        type : Number,
+        type : Number, 
         unique : false
     },
     postId : {
@@ -15,21 +16,9 @@ const postcommentreplys = new mongoose.Schema({
         ref : 'postcomments',
         require : true
     },
-    context : {
-        type : String,
-        require : false
-    },
     createdAt : {
         type : Date,
-        default : new Date()
-    },
-    updatedAt : {
-        type : Date,
-        default : new Date()
-    },
-    deletedAt : {
-        type : Date,
-        default : null
+        default : Date.now()  
     },
     users : {
         userId : {
@@ -46,6 +35,7 @@ const postcommentreplys = new mongoose.Schema({
 },
 {
     versionKey : false
-})
+});
 
-export default mongoose.model("postcommentreplys", postcommentreplys);
+
+export default mongoose.model('postcommentlike', postcommentlike);

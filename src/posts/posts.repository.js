@@ -13,10 +13,7 @@ export class PostsRepository {
             createdAt : true,
             updatedAt : true,
             deletedAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         });
 
         return DeletedPost;
@@ -30,10 +27,7 @@ export class PostsRepository {
             title : true,
             context : true,
             createdAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         });
 
         return findId;
@@ -46,10 +40,7 @@ export class PostsRepository {
                 id: countId,
                 title,
                 context,
-                users : {
-                    userId : user.id,
-                    nickname : user.nickname
-                }
+                users : true
             },
         );
 
@@ -64,10 +55,7 @@ export class PostsRepository {
                 id : true,
                 title : true,
                 createdAt : true,
-                users : {
-                    userId : true,
-                    nickname : true
-                }
+                users : true
             }
         );
         

@@ -52,10 +52,7 @@ export class PostLikeRepository {
                 _id : false,
                 id : true,
                 postId : true,
-                users : {
-                    userId : true,
-                    nickname : true
-                }
+                users : true
             }
         );
 
@@ -116,10 +113,7 @@ export class PostLikeRepository {
                 id : true,
                 postId : true,
                 createdAt : true,
-                users : {
-                    userId : true,
-                    nickname : true
-                }
+                users : true
             }
         );
 
@@ -132,10 +126,7 @@ export class PostLikeRepository {
             {
                 id : count,
                 postId : postId,
-                users : {
-                    userId : user.id,
-                    nickname : user.nickname
-                }
+                users : true
             }
         );
 

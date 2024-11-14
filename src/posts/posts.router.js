@@ -10,10 +10,15 @@ import { PostCommentRepository } from "./postcomments/post.comments.repository.j
 import { PostCommentService } from "./postcomments/post.comments.service.js";
 import { PostCommentController } from "./postcomments/post.comments.controller.js";
 
-import postreplys from "../schemas/post.comments.reply.js";
+import postcommentreplys from "../schemas/post.comments.reply.js";
 import { PostCommentReplyRepository } from "./postcomments/post-comments-reply/post-comments-reply.repository.js";
 import { PostCommentReplyService } from "./postcomments/post-comments-reply/post-comments-reply.service.js";
 import { PostCommentReplyController } from "./postcomments/post-comments-reply/post-comments-reply.controller.js";
+
+import postcommentlike from "../schemas/post.comments.like.js";
+import { PostCommentLikeRepository } from "./postcomments/post-comments-like/post-comments-like.repository.js";
+import { PostCommentLikeService } from "./postcomments/post-comments-like/post-comments-like.service.js";
+import { PostCommentLikeController } from "./postcomments/post-comments-like/post-comments-like.controller.js";
 
 import postLikes from "../schemas/post.likes.js";
 import { PostLikeRepository } from "../posts/postlikes/postlikes.repository.js";
@@ -31,7 +36,11 @@ const postCommentRepository = new PostCommentRepository(posts, postcomments);
 const postCommentService = new PostCommentService(postCommentRepository);
 const postCommentController = new PostCommentController(postCommentService);
 
-const postCommentReplyRepository = new PostCommentReplyRepository(posts, postcomments, postreplys);
+const postCommentLikeRepository = new PostCommentLikeRepository(posts, postcomments, postcommentlike);
+const postCommentLikeService = new PostCommentLikeService(postCommentLikeRepository);
+const postCommentLikeController = new PostCommentLikeController(postCommentLikeService);
+
+const postCommentReplyRepository = new PostCommentReplyRepository(posts, postcomments, postcommentreplys);
 const postCommentReplyService = new PostCommentReplyService(postCommentReplyRepository);
 const postCommentReplyController = new PostCommentReplyController(postCommentReplyService);
 
@@ -97,6 +106,9 @@ router.delete('/:postId/post-comments/:id', checkToken, postCommentController.de
 router.patch('/:postId/post-comments/softdelete/:id', checkToken, postCommentController.tbdelete);
 
 
+// ---- 게시글 댓글 좋아요 ---- //
+// 댓글 좋아요 목록 전체 조회
+router.get('/:postId/post-comments/:commentId/likes', postCommentLikeController);
 
 // ---- 게시글 대댓글 ---- //
 // 해당 게시글의 대댓글 전체 조회
