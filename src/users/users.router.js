@@ -1,5 +1,5 @@
 import express from "express";
-import users from "../schemas/users.schemas.js";
+import users from "../schemas/users/users.schemas.js";
 import { UsersRepository } from "./users.repository.js";
 import { UsersService } from "./users.service.js";
 import { AuthRepository } from "../auth/auth.repository.js";

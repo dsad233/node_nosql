@@ -11,11 +11,12 @@ export class PostCommentLikeService {
             throw new Error("게시글 목록이 존재하지 않습니다.");
         }
 
-        const findCommentOne = await this.postCommentLikeRepository.findCommentID(commentId);
-
-        if(!findCommentOne){
+        const findCommentOne = await this.postCommentLikeRepository.findCommentID(postId, commentId);
+        
+        if(!findCommentOne){ 
             throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
         }
+
 
         const find = await this.postCommentLikeRepository.find(postId, commentId);
 
@@ -34,7 +35,7 @@ export class PostCommentLikeService {
             throw new Error("게시글 목록이 존재하지 않습니다.");
         }
 
-        const findCommentOne = await this.postCommentLikeRepository.findCommentID(commentId);
+        const findCommentOne = await this.postCommentLikeRepository.findCommentID(postId, commentId);
 
         if(!findCommentOne){
             throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
@@ -59,7 +60,7 @@ export class PostCommentLikeService {
             throw new Error("게시글 목록이 존재하지 않습니다.");
         }
 
-        const findCommentOne = await this.postCommentLikeRepository.findCommentID(commentId);
+        const findCommentOne = await this.postCommentLikeRepository.findCommentID(postId, commentId);
 
         if(!findCommentOne){
             throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
@@ -83,7 +84,7 @@ export class PostCommentLikeService {
             throw new Error("게시글 목록이 존재하지 않습니다.");
         }
 
-        const findCommentOne = await this.postCommentLikeRepository.findCommentID(commentId);
+        const findCommentOne = await this.postCommentLikeRepository.findCommentID(postId, commentId);
 
         if(!findCommentOne){
             throw new Error("게시글 댓글 목록이 존재하지 않습니다.");
@@ -107,7 +108,7 @@ export class PostCommentLikeService {
             return createData;
         } else {
             const deleteData = await this.postCommentLikeRepository.delete(postId, commentId, alreadyData.id);
-            
+
             return deleteData;
         }
     };

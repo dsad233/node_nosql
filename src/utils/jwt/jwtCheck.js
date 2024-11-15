@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import users from "../../schemas/users.schemas.js"
+import users from "../../schemas/users/users.schemas.js"
 import { ENV_JWT_SECRET_KEY } from "../const_config.js";
 
 export default async function checkToken (req, res, next){

@@ -47,7 +47,7 @@ export class PostLikeRepository {
 
     // 해당 게시글 좋아요 전체 조회
     findLikeAll = async (postId) => {
-        const find = await this.postLikes.find({ $and : [{ postId : +postId }, { deletedAt : null }] },
+        const find = await this.postLikes.find({ $and : [{ postId : +postId }] },
             {
                 _id : false,
                 id : true,
@@ -61,7 +61,7 @@ export class PostLikeRepository {
 
     // 유저가 누른 좋아요 총 목록 (자기 회원만 접근 가능)
     findUserPostLikedAll = async (user) => {
-        const findUserLiked = await this.postLikes.find({ $and : [{users : { userId : user.id, nickname : user.nickname }}, { deletedAt : null }]},{
+        const findUserLiked = await this.postLikes.find({ $and : [{users : { userId : user.id, nickname : user.nickname }}]},{
             _id : false,
             id : true,
             postId : true
@@ -72,7 +72,7 @@ export class PostLikeRepository {
 
     // 게시글 좋아요 ID만 전체 조회
     findLikeIdAll = async () => {
-        const findLikeAll = await this.postLikes.find({ deletedAt : null }, {
+        const findLikeAll = await this.postLikes.find({}, {
             _id : false,
             id : true,
         });
@@ -82,7 +82,7 @@ export class PostLikeRepository {
 
     // 해당 게시글에 유저가 누른 좋아요 목록 전체 조회
     findUserLikeAll = async (user, postId) => {
-        const findLikeAll = await this.postLikes.find({ $and : [{users : { userId : user.id, nickname : user.nickname }},{postId : +postId}, {deletedAt : null}]}, {
+        const findLikeAll = await this.postLikes.find({ $and : [{users : { userId : user.id, nickname : user.nickname }},{postId : +postId}]}, {
             _id : false,
             id : true,
             postId : true
@@ -93,7 +93,7 @@ export class PostLikeRepository {
 
     // 해당 게시글에 유저가 누른 좋아요 상세 목록 조회 (service create 좋아요 조회에 사용)
     findUserLikeOne = async (user, postId) => {
-        const findUserLike = await this.postLikes.findOne({ $and : [{users : { userId : user.id, nickname : user.nickname }},{postId : +postId}, {deletedAt : null}] },
+        const findUserLike = await this.postLikes.findOne({ $and : [{users : { userId : user.id, nickname : user.nickname }},{postId : +postId}] },
             {
                 _id : false,
                 id : true,
@@ -106,8 +106,8 @@ export class PostLikeRepository {
     };
 
     // 해당 게시글 좋아요 상세 ID 조회
-    findLikeOne = async (postId, id) => {
-        const findOne = await this.postLikes.findOne({ $and : [{ postId : +postId }, { id : +id }, { deletedAt : null }] },
+    findLikeOne = async (id, postId) => {
+        const findOne = await this.postLikes.findOne({ $and : [{ id : +id }, { postId : +postId }] },
             {
                 _id : false,
                 id : true,
@@ -126,7 +126,10 @@ export class PostLikeRepository {
             {
                 id : count,
                 postId : postId,
-                users : true
+                users : {
+                    userId : user.id,
+                    nickname : user.nickname
+                }
             }
         );
 
@@ -134,8 +137,8 @@ export class PostLikeRepository {
     };
 
     // 게시글 좋아요 삭제
-    likeDelete = async (postId, id) => {
-        const deleteLike = await this.postLikes.deleteOne({ $and : [{ postId : +postId }, { id : +id }] });
+    likeDelete = async (id, postId) => {
+        const deleteLike = await this.postLikes.deleteOne({ $and : [{ id : +id }, { postId : +postId }] });
 
         return deleteLike;
     };

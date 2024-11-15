@@ -34,10 +34,7 @@ export class PostCommentReplyRepository{
             postcommentId : true,
             context : true,
             createdAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         });
 
         return find;
@@ -54,17 +51,14 @@ export class PostCommentReplyRepository{
     };
 
     // 대댓글 상세 조회
-    findOne = async (postId, commentId, id) => {
-        const findOne = await this.postcommentreplys.findOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] }, {
+    findOne = async (id, postId, commentId) => {
+        const findOne = await this.postcommentreplys.findOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] }, {
             _id : false,
             postId : true,
             postcommentId : true,
             context : true,
             createdAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         })
 
         return findOne;
@@ -81,10 +75,7 @@ export class PostCommentReplyRepository{
             createdAt : true,
             updatedAt : true,
             deletedAt : true,
-            users : {
-                userId : true,
-                nickname : true
-            }
+            users : true
         })
 
         return find;
@@ -95,7 +86,7 @@ export class PostCommentReplyRepository{
         const create = await this.postcommentreplys.create({
             id : count,
             postId : postId,
-            postcsmmentId : commentId, 
+            postcommentId : commentId, 
             context : context,
             users : {
                 userId : user.id,
@@ -107,8 +98,8 @@ export class PostCommentReplyRepository{
     };
 
     // 대댓글 업데이트 
-    update = async (postId, commentId, id, context) => {
-        const update = await this.postcommentreplys.updateOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] }, {
+    update = async (id, postId, commentId, context) => {
+        const update = await this.postcommentreplys.updateOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] }, {
             context : context,
             updatedAt : new Date()
         });
@@ -117,15 +108,15 @@ export class PostCommentReplyRepository{
     };
 
     // 대댓글 삭제
-    delete = async (postId, commentId, id) => {
-        const data = await this.postcommentreplys.deleteOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] });
+    delete = async (id, postId, commentId) => {
+        const data = await this.postcommentreplys.deleteOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] });
 
         return data;
     }
 
     // 임시 대댓글 삭제
-    softdelete = async (postId, commentId, id) => {
-        const data = await this.postcommentreplys.updateOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] }, {
+    softdelete = async (id, postId, commentId) => {
+        const data = await this.postcommentreplys.updateOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] }, {
             deletedAt : new Date()
         });
 

@@ -1,29 +1,34 @@
 import express from "express";
-import posts from "../schemas/posts.schemas.js";
+import posts from "../schemas/posts/posts-schemas.js"
 import { PostsRepository } from "./posts.repository.js";
 import { PostsService } from "./posts.service.js";
 import { PostsController } from "./posts.controller.js";
 import checkToken from "../utils/jwt/jwtCheck.js";
 
-import postcomments from "../schemas/post.comments.js";
-import { PostCommentRepository } from "./postcomments/post.comments.repository.js";
-import { PostCommentService } from "./postcomments/post.comments.service.js";
-import { PostCommentController } from "./postcomments/post.comments.controller.js";
+import postcomments from "../schemas/posts/post-comments/post-comments.js";
+import { PostCommentRepository } from "./postcomments/post-comments-repository.js";
+import { PostCommentService } from "./postcomments/post-comments-service.js";
+import { PostCommentController } from "./postcomments/post-comments-controller.js";
 
-import postcommentreplys from "../schemas/post.comments.reply.js";
-import { PostCommentReplyRepository } from "./postcomments/post-comments-reply/post-comments-reply.repository.js";
-import { PostCommentReplyService } from "./postcomments/post-comments-reply/post-comments-reply.service.js";
-import { PostCommentReplyController } from "./postcomments/post-comments-reply/post-comments-reply.controller.js";
-
-import postcommentlike from "../schemas/post.comments.like.js";
+import postcommentlike from "../schemas/posts/post-comments/post-comments-like.js";
 import { PostCommentLikeRepository } from "./postcomments/post-comments-like/post-comments-like.repository.js";
 import { PostCommentLikeService } from "./postcomments/post-comments-like/post-comments-like.service.js";
 import { PostCommentLikeController } from "./postcomments/post-comments-like/post-comments-like.controller.js";
 
-import postLikes from "../schemas/post.likes.js";
-import { PostLikeRepository } from "../posts/postlikes/postlikes.repository.js";
-import { PostLikeService } from "../posts/postlikes/postlikes.service.js";
-import { PostLikeController } from "../posts/postlikes/postlikes.controller.js";
+import postcommentreplys from "../schemas/posts/post-comments/post.comments-reply/post-comments-reply.js";
+import { PostCommentReplyRepository } from "./postcomments/post-comments-reply/post-comments-reply.repository.js";
+import { PostCommentReplyService } from "./postcomments/post-comments-reply/post-comments-reply.service.js";
+import { PostCommentReplyController } from "./postcomments/post-comments-reply/post-comments-reply.controller.js";
+
+import postcommentreplylike from "../schemas/posts/post-comments/post.comments-reply/post-comments-reply-like.js"
+import { PostCommentReplyLikeRepository } from "./postcomments/post-comments-reply/post-comments-reply-like/post-comments-reply-like.repository.js";
+import { PostCommentReplyLikeService } from "./postcomments/post-comments-reply/post-comments-reply-like/post-comments-reply-like.service.js";
+import { PostCommentReplyLikeController } from "./postcomments/post-comments-reply/post-comments-reply-like/post-comments-reply-like.controller.js";
+
+import postLikes from "../schemas/posts/post-likes.js";
+import { PostLikeRepository } from "./postlikes/post-likes.repository.js";
+import { PostLikeService } from "./postlikes/post-likes.service.js";
+import { PostLikeController } from "./postlikes/post-likes.controller.js";
 
 
 const router = express.Router();
@@ -31,6 +36,10 @@ const router = express.Router();
 const postsRepository = new PostsRepository(posts);
 const postsService = new PostsService(postsRepository);
 const postsController = new PostsController(postsService);
+
+const postLikeRepository = new PostLikeRepository(posts, postLikes);
+const postLikeService = new PostLikeService(postLikeRepository);
+const postLikeController = new PostLikeController(postLikeService);
 
 const postCommentRepository = new PostCommentRepository(posts, postcomments);
 const postCommentService = new PostCommentService(postCommentRepository);
@@ -44,9 +53,9 @@ const postCommentReplyRepository = new PostCommentReplyRepository(posts, postcom
 const postCommentReplyService = new PostCommentReplyService(postCommentReplyRepository);
 const postCommentReplyController = new PostCommentReplyController(postCommentReplyService);
 
-const postLikeRepository = new PostLikeRepository(posts, postLikes);
-const postLikeService = new PostLikeService(postLikeRepository);
-const postLikeController = new PostLikeController(postLikeService);
+const postCommentReplyLikeRepository = new PostCommentReplyLikeRepository(posts, postcomments, postcommentreplys, postcommentreplylike);
+const postCommentReplyLikeService = new PostCommentReplyLikeService(postCommentReplyLikeRepository);
+const postCommentReplyLikeController = new PostCommentReplyLikeController(postCommentReplyLikeService);
 
 
 // ---- 게시글 ---- //
@@ -107,8 +116,16 @@ router.patch('/:postId/post-comments/softdelete/:id', checkToken, postCommentCon
 
 
 // ---- 게시글 댓글 좋아요 ---- //
-// 댓글 좋아요 목록 전체 조회
-router.get('/:postId/post-comments/:commentId/likes', postCommentLikeController);
+// 해당 게시글의 댓글 좋아요 목록 전체 조회
+router.get('/:postId/post-comments/:commentId/likes', checkToken, postCommentLikeController.find);
+// 해당 게시글의 댓글 좋아요 카운트 조회
+router.get('/:postId/post-comments/:commentId/likes/count', checkToken, postCommentLikeController.findCount);
+// 해당 게시글의 댓글 좋아요 목록 상세 조회
+router.get('/:postId/post-comments/:commentId/likes/:id', checkToken, postCommentLikeController.findOne);
+// 해당 게시글의 댓글 좋아요 생성
+router.post('/:postId/post-comments/:commentId/likes', checkToken, postCommentLikeController.create);
+
+
 
 // ---- 게시글 대댓글 ---- //
 // 해당 게시글의 대댓글 전체 조회

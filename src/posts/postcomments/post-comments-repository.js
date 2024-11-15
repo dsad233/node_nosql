@@ -49,7 +49,10 @@ export class PostCommentRepository {
             id : count,
             context,
             postId,
-            users : true
+            users : {
+                userId : user.id,
+                nickname : user.nickname
+            }
         });
 
         return addComment;
@@ -110,7 +113,7 @@ export class PostCommentRepository {
     };
 
     // 댓글 상세 조회
-    findOneComment = async (postId, id) => {
+    findOneComment = async (id, postId) => {
         const findId = await this.postComments.findOne({ $and : [{ id : +id }, { postId : postId }, { deletedAt : null }]}, {
             _id : false,
             users : true,
@@ -124,8 +127,8 @@ export class PostCommentRepository {
     };
 
     // 댓글 수정
-    editComment = async (postId, id, context) => {
-        const editComment = await this.postComments.updateOne({ $and : [{postId : +postId}, {id : +id}, {deletedAt : null}] }, {
+    editComment = async (id, postId, context) => {
+        const editComment = await this.postComments.updateOne({ $and : [{id : +id}, {postId : +postId}, {deletedAt : null}] }, {
             context
         });
 
@@ -133,15 +136,15 @@ export class PostCommentRepository {
     };
 
     // 댓글 삭제
-    deleteComment = async (postId, id) => {
-        const deleteComment = await this.postComments.deleteOne({ $and : [{postId : +postId}, {id : +id}] });
+    deleteComment = async (id, postId) => {
+        const deleteComment = await this.postComments.deleteOne({ $and : [{id : +id}, {postId : +postId}] });
 
         return deleteComment;
     }
 
     // 임시 댓글 삭제
-    tbCommentdelete = async (postId, id) => {
-        const tobedeleted = await this.postComments.updateOne({ $and : [{postId : +postId}, {id : +id}, {deletedAt : null}] }, {
+    tbCommentdelete = async (id, postId) => {
+        const tobedeleted = await this.postComments.updateOne({ $and : [{id : +id}, {postId : +postId}, {deletedAt : null}] }, {
             deletedAt : new Date()
         });
 

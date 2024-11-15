@@ -18,7 +18,7 @@ const postcommentlike = new mongoose.Schema({
     },
     createdAt : {
         type : Date,
-        default : Date.now()  
+        default : new Date() 
     },
     users : {
         userId : {

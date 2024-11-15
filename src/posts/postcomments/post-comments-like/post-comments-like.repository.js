@@ -27,7 +27,7 @@ export class PostCommentLikeRepository {
 
     // 댓글 좋아요 목록 전체 조회
     find = async (postId, commentId) => {
-        const find = await this.postcommentlike.find({ $and : [{postId : +postId}, {postcsmmentId : +commentId}, {deletedAt : null}] }, {
+        const find = await this.postcommentlike.find({ $and : [{postId : +postId}, {postcommentId : +commentId}] }, {
             _id : false,
             id : true,
             postId : true,
@@ -41,7 +41,7 @@ export class PostCommentLikeRepository {
 
     // 댓글 좋아요 목록 ID 전체 조회 (ID만)
     findSelectID = async () => {
-        const find = await this.postcommentlike.find({ deletedAt : null }, {
+        const find = await this.postcommentlike.find({}, {
             _id : false,
             id : true
         });
@@ -50,8 +50,8 @@ export class PostCommentLikeRepository {
     };
 
     // 댓글 좋아요 목록 상세 조회
-    findOne = async (postId, commentId, id) => {
-        const findOne = await this.postcommentlike.findOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] }, {
+    findOne = async (id, postId, commentId) => {
+        const findOne = await this.postcommentlike.findOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}] }, {
             _id : false,
             id : true,
             postId : true,
@@ -65,7 +65,7 @@ export class PostCommentLikeRepository {
 
     // 유저가 누른 좋아요 기록 조회
     findUserCommentLike = async (postId, commentId, user) => {
-        const findUserData = await this.postcommentlike.findOne({ $and : [{users : { userId : user.id, nickname : user.nickname }}, {postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] }, {
+        const findUserData = await this.postcommentlike.findOne({ $and : [{users : { userId : user.id, nickname : user.nickname }}, {postId : +postId}, {postcommentId : +commentId}] }, {
             _id : false,
             id : true,
             postId : true,
@@ -82,7 +82,10 @@ export class PostCommentLikeRepository {
             id : count,
             postId : postId,
             postcommentId : commentId,
-            users : true
+            users : {
+                userId : user.id,
+                nickname : user.nickname
+            }
         });
 
         return create;
@@ -90,8 +93,8 @@ export class PostCommentLikeRepository {
 
     
     // 댓글 좋아요 삭제
-    delete = async (postId, commentId, id) => {
-        const deleteLike = await this.postcommentlike.deleteOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +id}, {deletedAt : null}] });
+    delete = async (id, postId, commentId) => {
+        const deleteLike = await this.postcommentlike.deleteOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}] });
 
         return deleteLike;
     }

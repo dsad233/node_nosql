@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as KakaoStrategy } from "passport-kakao";
 import { ENV_KAKAO_ID, ENV_REDIRECT_URL, ENV_KAKAO_SECRET_KEY, ENV_JWT_SECRET_KEY } from "./const_config.js";
-import users from "../schemas/users.schemas.js";
+import users from "../schemas/users/users.schemas.js";
 import jwt from "jsonwebtoken";
 
 export default async function kakaoAccess (req, res, app) {
