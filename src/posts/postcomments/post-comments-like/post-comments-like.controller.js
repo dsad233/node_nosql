@@ -6,8 +6,7 @@ export class PostCommentLikeController {
     // 해당 게시글의 댓글 좋아요 목록 전체 조회
     find = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
 
             const data = await this.postCommentLikeService.find(postId, commentId);
             return res.status(200).json({ message : "해당 게시글의 좋아요 전체 조회가 완료되었습니다.", data : data }); 
@@ -20,8 +19,7 @@ export class PostCommentLikeController {
     // 해당 게시글의 댓글 좋아요 카운트 조회
     findCount = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
 
             const count = await this.postCommentLikeService.findCount(postId, commentId);
 
@@ -36,9 +34,7 @@ export class PostCommentLikeController {
     // 해당 게시글의 댓글 좋아요 목록 상세 조회
     findOne = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
-            const { id } = req.params;
+            const { postId, commentId, id } = req.params;
 
             const data = await this.postCommentLikeService.findOne(postId, commentId, id);
 
@@ -54,8 +50,7 @@ export class PostCommentLikeController {
     create = async (req, res, next) => {
         try {
             const user = req.user;
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
 
             await this.postCommentLikeService.create(postId, commentId, user);
 

@@ -6,8 +6,7 @@ export class PostCommentReplyController {
     // 해당 게시글의 대댓글 전체 조회
     find = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
 
             const data = await this.postCommentReplyService.find(postId, commentId);
 
@@ -21,8 +20,7 @@ export class PostCommentReplyController {
     // 해당 게시글의 대댓글 카운트
     findCount = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
 
             const data = await this.postCommentReplyService.findCount(postId, commentId);
 
@@ -36,9 +34,7 @@ export class PostCommentReplyController {
     // 해당 게시글의 대댓글 상세 조회
     findOne = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
-            const { id } = req.params;
+            const { postId, commentId, id } = req.params;
 
             const data = await this.postCommentReplyService.findOne(postId, commentId, id);
 
@@ -66,8 +62,7 @@ export class PostCommentReplyController {
     create = async (req, res) => {
         try {
             const user = req.user;
-            const { postId } = req.params;
-            const { commentId } = req.params;
+            const { postId, commentId } = req.params;
             const { context } = req.body;
 
             if(!context){
@@ -91,9 +86,7 @@ export class PostCommentReplyController {
     // 대댓글 업데이트
     update = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
-            const { id } = req.params;
+            const { postId, commentId, id } = req.params;
             const { context } = req.body;
 
             if(context && context.length < 2){
@@ -113,9 +106,7 @@ export class PostCommentReplyController {
     // 대댓글 삭제
     delete = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
-            const { id } = req.params;
+            const { postId, commentId, id } = req.params;
 
             await this.postCommentReplyService.delete(postId, commentId, id);
 
@@ -130,9 +121,7 @@ export class PostCommentReplyController {
     // 대댓글 임시 삭제 (softdelete)
     softdelete = async (req, res) => {
         try {
-            const { postId } = req.params;
-            const { commentId } = req.params;
-            const { id } = req.params;
+            const { postId, commentId, id } = req.params;
 
             await this.postCommentReplyService.softdelete(postId, commentId, id);
 

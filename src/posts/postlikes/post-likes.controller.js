@@ -77,8 +77,7 @@ export class PostLikeController {
     // 해당 게시글 좋아요 상세 조회
     findOne = async (req, res) => {
         try{
-            const { postId } = req.params;
-            const { likeId } = req.params;
+            const { postId, likeId } = req.params;
 
             const likedOne = await this.postLikeService.findOneLike(postId, likeId);
 

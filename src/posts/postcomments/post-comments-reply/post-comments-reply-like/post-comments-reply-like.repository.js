@@ -8,7 +8,7 @@ export class PostCommentReplyLikeRepository {
 
     // 게시물 ID 조회
     findPostID = async (postId) => {
-        const findOne = await this.posts.findOne({ $and : [{postId : +postId}, {deletedAt : null}] },{
+        const findOne = await this.posts.findOne({ $and : [{id : +postId}, {deletedAt : null}] },{
             _id : false,
             id : true
         });
@@ -19,7 +19,7 @@ export class PostCommentReplyLikeRepository {
     
     // 해당 게시글 댓글 ID 조회
     findCommentID = async (postId, commentId) => {
-        const findOne = await this.postcomments.findOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {deletedAt : null}] }, {
+        const findOne = await this.postcomments.findOne({ $and : [{postId : +postId}, {id : +commentId}, {deletedAt : null}] }, {
             _id : false,
             id : true
         });
@@ -29,7 +29,7 @@ export class PostCommentReplyLikeRepository {
 
     // 해당 게시글 대댓글 ID 조회
     findReplyID = async (postId, commentId, replyId) => {
-        const findOne = await this.postcommentreplys.findOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {postcommentreplyId : +replyId}, {deletedAt : null}] }, {
+        const findOne = await this.postcommentreplys.findOne({ $and : [{postId : +postId}, {postcommentId : +commentId}, {id : +replyId}, {deletedAt : null}] }, {
             _id : false,
             id : true
         });
@@ -53,6 +53,16 @@ export class PostCommentReplyLikeRepository {
         return find;
     };
 
+    // 해당 게시글, 댓글의 대댓글 좋아요 ID만 전체 조회
+    findSelectID = async () => {
+        const find = await this.postcommentreplylike.find({}, {
+            _id : false,
+            id : true
+        });
+
+        return find;
+    };
+
     // 해당 게시글, 댓글의 대댓글 좋아요 상세 조회
     findOne = async (id, postId, commentId, replyId) => {
         const findOne = await this.postcommentreplylike.findOne({ $and : [{id : +id}, {postId : +postId}, {postcommentId : +commentId}, {postcommentreplyId : +replyId}] }, {
@@ -66,6 +76,21 @@ export class PostCommentReplyLikeRepository {
         });
 
         return findOne;
+    };
+
+    // 해당 게시글, 댓글의 대댓글 좋아요 상세 조회
+    findReplyUserLike = async (postId, commentId, replyId, user) => {
+        const findUserLikeOne = await this.postcommentreplylike.findOne({ $and : [{users : { userId : user.id, nickname : user.nickname }}, {postId : +postId}, {postcommentId : +commentId}, {postcommentreplyId : +replyId}] }, {
+            _id : false,
+            id : true,
+            postId : true,
+            postcommentId : true,
+            postcommentreplyId : true,
+            createdAt : true,
+            users : true
+        });
+
+        return findUserLikeOne;
     };
 
 

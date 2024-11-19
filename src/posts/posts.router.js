@@ -126,7 +126,6 @@ router.get('/:postId/post-comments/:commentId/likes/:id', checkToken, postCommen
 router.post('/:postId/post-comments/:commentId/likes', checkToken, postCommentLikeController.create);
 
 
-
 // ---- 게시글 대댓글 ---- //
 // 해당 게시글의 대댓글 전체 조회
 router.get('/:postId/post-comments/:commentId/replys', checkToken, postCommentReplyController.find);
@@ -146,6 +145,15 @@ router.delete('/:postId/post-comments/:commentId/replys/:id', checkToken, postCo
 router.patch('/:postId/post-comments/:commentId/replys/softdelete/:id', checkToken, postCommentReplyController.softdelete);
 
 
+// ---- 게시글 대댓글 좋아요 ---- //
+// 해당 게시글, 댓글의 대댓글 좋아요 전체 조회
+router.get('/:postId/post-comments/:commentId/replys/:replyId/likes', checkToken, postCommentReplyLikeController.find);
+// 해당 게시글, 댓글의 대댓글 좋아요 카운트 조회
+router.get('/:postId/post-comments/:commentId/replys/:replyId/likes/count', checkToken, postCommentReplyLikeController.findCount);
+// 해당 게시글, 댓글의 대댓글 좋아요 상세 조회
+router.get('/:postId/post-comments/:commentId/replys/:replyId/likes/:id', checkToken, postCommentReplyLikeController.findOne);
+// 해당 게시글, 댓글의 대댓글 좋아요 생성
+router.post('/:postId/post-comments/:commentId/replys/:replyId/likes', checkToken, postCommentReplyLikeController.create);
 
 
 export default router;
